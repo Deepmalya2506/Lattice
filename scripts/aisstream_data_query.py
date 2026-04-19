@@ -1,4 +1,4 @@
-import websockets
+import websocket
 import json
 import os
 from dotenv import load_dotenv
@@ -31,7 +31,7 @@ def on_open(ws):
     ws.send(json.dumps(subscribe_message))
 
 if __name__ == "__main__":
-    ws = websockets.WebSocketApp("wss://stream.aisstream.io/v0/stream",
+    ws = websocket.WebSocketApp("wss://stream.aisstream.io/v0/stream",
                               on_open=on_open,
                               on_message=on_message,
                               on_error=on_error,

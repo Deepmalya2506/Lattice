@@ -10,3 +10,4 @@ dotenv
 xarray
 netcdf4
 h5netcdf
+websocket
