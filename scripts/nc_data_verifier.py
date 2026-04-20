@@ -1,6 +1,6 @@
 import xarray as xr
 
-filepath=r"copernicus_data\cmems_mod_glo_phy_my_0.083deg_P1D-m_1776613626385.nc"
+filepath=r"D:\Copernicus_data\cmems_mod_glo_phy_my_0.083deg_P1D-m_1776686378510.nc"
 ds = xr.open_dataset(filepath)
 
 print("---")

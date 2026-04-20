@@ -13,3 +13,5 @@ h5netcdf
 websocket
 websocket-client
 polars
+scipy
+dask
