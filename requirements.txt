@@ -5,7 +5,6 @@ redis>=5.0.0
 pandas>=2.1.0
 asyncio
 websockets
-json
 dotenv
 xarray
 netcdf4
