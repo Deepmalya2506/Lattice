@@ -14,3 +14,4 @@ websocket-client
 polars
 scipy
 dask
+torch
