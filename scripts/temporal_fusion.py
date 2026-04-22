@@ -70,9 +70,9 @@ def fuse_physics(parquet_dir, nc_dir, output_dir):
         ds.close()
 
 # --- Configuration ---
-parquet_in = r"D:\AIS_data\atlantic_parquet_2024"
-nc_in = r"D:\Copernicus_data" 
-fused_out = r"D:\AIS_data\fused_training_data_2024"
+parquet_in = r"D:\AIS_data\atlantic_parquet_2024" # parquet data from extracted csvs for regional scan
+nc_in = r"D:\Copernicus_data" # netCDF data from Copernicus  
+fused_out = r"D:\AIS_data\fused_training_data_2024"# 
 
 if __name__ == "__main__":
     fuse_physics(parquet_in, nc_in, fused_out)

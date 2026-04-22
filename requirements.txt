@@ -15,3 +15,4 @@ polars
 scipy
 dask
 torch
+matplotlib
