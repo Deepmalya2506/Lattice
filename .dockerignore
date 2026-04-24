@@ -1,0 +1,12 @@
+.venv
+__pycache__
+*.pyc
+.git
+.gitignore
+.env
+Dockerfile
+.dockerignore
+*.md
+lattice_automated_test.html
+*.png
+*.ipynb

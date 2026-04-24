@@ -16,3 +16,5 @@ scipy
 dask
 torch
 matplotlib
+folium
+google-cloud-storage

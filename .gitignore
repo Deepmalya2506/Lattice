@@ -1,3 +1,4 @@
 copernicus_data/
 .env
 .venv/
+services/risk_scoring_engine/lattice_pi_lstm_cpu.pth
