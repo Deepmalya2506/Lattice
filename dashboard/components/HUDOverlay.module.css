@@ -1,0 +1,123 @@
+/* ─── HUDOverlay ──────────────────────────────────────────────────────────── */
+
+.hud {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 14px;
+  border-radius: 12px;
+  border-color: var(--border-bright);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.hudHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hudTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0,212,255,0.6);
+}
+
+/* ─── Progress ───────────────────────────────────────────────────────────── */
+.progressSection { display: flex; flex-direction: column; gap: 6px; }
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.progressTrack {
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 8px rgba(0,212,255,0.5);
+}
+
+/* ─── Feature Grid ───────────────────────────────────────────────────────── */
+.featureGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.featureSection { display: flex; flex-direction: column; gap: 4px; }
+
+.featureSectionTitle {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 2px;
+}
+
+.featureRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.featureRowHighlight {
+  background: rgba(0,212,255,0.05);
+  border-left: 2px solid var(--accent-cyan);
+  padding-left: 8px;
+}
+
+.featureLabel {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.featureValue {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.featureUnit {
+  font-size: 9px;
+  opacity: 0.7;
+  margin-left: 1px;
+}
+
+/* ─── Drift Display ──────────────────────────────────────────────────────── */
+.driftDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0 4px;
+}
+
+.driftLabel {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.driftValue {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: color 0.3s, text-shadow 0.3s;
+}

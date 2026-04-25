@@ -1,0 +1,132 @@
+/* ─── TopBar ──────────────────────────────────────────────────────────────── */
+
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--topbar-height);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 20px;
+  background: rgba(2, 4, 8, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.logo {
+  font-size: 22px;
+  color: var(--accent-cyan);
+  text-shadow: var(--glow-cyan);
+  line-height: 1;
+}
+.brandName {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
+}
+.brandSub {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Status strip */
+.statusStrip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  justify-content: center;
+}
+
+.statusPill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-family: 'Orbitron', sans-serif;
+  border: 1px solid;
+  transition: var(--transition-smooth);
+}
+.statusDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-idle   { color: var(--text-muted);   border-color: var(--text-muted);   background: rgba(58,90,114,0.1); }
+.status-loading{ color: var(--accent-amber); border-color: var(--accent-amber); background: rgba(255,184,0,0.08); animation: pulse-amber 1s infinite; }
+.status-ready  { color: var(--accent-green); border-color: var(--accent-green); background: rgba(0,255,136,0.08); }
+.status-error  { color: var(--accent-red);   border-color: var(--accent-red);   background: rgba(255,51,85,0.08); }
+
+@keyframes pulse-amber {
+  0%,100% { box-shadow: none; }
+  50% { box-shadow: 0 0 10px rgba(255,184,0,0.4); }
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 12px;
+  border-left: 1px solid var(--border-subtle);
+}
+.metricLabel {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+}
+.metricValue {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.shipInput {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  width: 120px;
+  text-align: center;
+  outline: none;
+  transition: var(--transition-fast);
+}
+.shipInput:focus { border-bottom-color: var(--accent-cyan); }
+
+/* Right cluster */
+.rightCluster {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.liveBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.timeDisplay {
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}

@@ -1,0 +1,60 @@
+/* ─── TelemetryChart ──────────────────────────────────────────────────────── */
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border-color: var(--border-bright);
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chartTitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0,212,255,0.5);
+}
+
+.chartStats {
+  display: flex;
+  gap: 14px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.statLabel {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 130px;
+  color: var(--text-muted);
+}
+
+.tooltip {
+  background: rgba(2, 4, 8, 0.95);
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  padding: 8px 12px;
+  backdrop-filter: blur(8px);
+}

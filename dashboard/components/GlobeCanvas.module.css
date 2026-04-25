@@ -1,0 +1,203 @@
+/* ─── GlobeCanvas ─────────────────────────────────────────────────────────── */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cesiumContainer {
+  width: 100%;
+  height: 100%;
+  background: #020408;
+}
+
+/* Hide Cesium chrome */
+.cesiumContainer :global(.cesium-viewer-toolbar),
+.cesiumContainer :global(.cesium-viewer-animationContainer),
+.cesiumContainer :global(.cesium-viewer-timelineContainer),
+.cesiumContainer :global(.cesium-viewer-bottom),
+.cesiumContainer :global(.cesium-credit-lightbox-overlay) {
+  display: none !important;
+}
+
+/* ─── Loading Overlay ────────────────────────────────────────────────────── */
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 4, 8, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.loadingInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--accent-cyan);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  box-shadow: var(--glow-cyan);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Pin Controls ───────────────────────────────────────────────────────── */
+.pinControls {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+}
+
+.btnActive {
+  background: rgba(0, 212, 255, 0.2);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  animation: pulse-cyan-border 1.5s infinite;
+}
+
+.btnActiveAmber {
+  background: rgba(255, 184, 0, 0.15);
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
+  animation: pulse-amber-border 1.5s infinite;
+}
+
+@keyframes pulse-cyan-border {
+  0%,100% { box-shadow: 0 0 10px rgba(0,212,255,0.3); }
+  50%      { box-shadow: 0 0 25px rgba(0,212,255,0.7); }
+}
+
+@keyframes pulse-amber-border {
+  0%,100% { box-shadow: 0 0 10px rgba(255,184,0,0.3); }
+  50%      { box-shadow: 0 0 25px rgba(255,184,0,0.7); }
+}
+
+/* ─── Legend ─────────────────────────────────────────────────────────────── */
+.legend {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(2, 4, 8, 0.82);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 12px 16px;
+  z-index: 20;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.legendLine {
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+/* ─── Pin Hint ───────────────────────────────────────────────────────────── */
+.pinHint {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(2, 4, 8, 0.88);
+  border: 1px solid var(--border-bright);
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 13px;
+  color: var(--text-primary);
+  z-index: 30;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+
+/* ─── Timeline Control Overlay ───────────────────────────────────────────── */
+.timeControlOverlay {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 280px;
+  background: rgba(2, 4, 8, 0.82);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 12px 16px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggleBtn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggleActive {
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.scrubberContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

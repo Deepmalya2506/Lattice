@@ -1,0 +1,265 @@
+/* ─── Lattice Maritime Command Center — Global Design System ─────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@400;600;700;900&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────── */
+:root {
+  /* Core palette */
+  --bg-void:         #020408;
+  --bg-deep:         #060d14;
+  --bg-surface:      #0a1628;
+  --bg-elevated:     #0f1f35;
+  --bg-glass:        rgba(10, 22, 40, 0.75);
+
+  /* Accent spectrum */
+  --accent-cyan:     #00d4ff;
+  --accent-cyan-dim: #0099bb;
+  --accent-blue:     #1a6bff;
+  --accent-green:    #00ff88;
+  --accent-green-dim:#00bb66;
+  --accent-red:      #ff3355;
+  --accent-red-dim:  #bb2244;
+  --accent-amber:    #ffb800;
+  --accent-purple:   #9b5de5;
+
+  /* Text */
+  --text-primary:    #e8f4f8;
+  --text-secondary:  #7a9db5;
+  --text-muted:      #3a5a72;
+  --text-accent:     #00d4ff;
+
+  /* Borders */
+  --border-subtle:   rgba(0, 212, 255, 0.12);
+  --border-bright:   rgba(0, 212, 255, 0.35);
+  --border-glow:     rgba(0, 212, 255, 0.6);
+
+  /* Glow effects */
+  --glow-cyan:       0 0 20px rgba(0, 212, 255, 0.4), 0 0 60px rgba(0, 212, 255, 0.15);
+  --glow-green:      0 0 20px rgba(0, 255, 136, 0.4), 0 0 60px rgba(0, 255, 136, 0.15);
+  --glow-red:        0 0 20px rgba(255, 51, 85, 0.4), 0 0 60px rgba(255, 51, 85, 0.15);
+
+  /* Spacing */
+  --sidebar-width: 380px;
+  --hud-height: 220px;
+  --topbar-height: 56px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Reset & Base ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbars ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--accent-cyan-dim); border-radius: 2px; }
+
+/* ─── Utility Classes ──────────────────────────────────────────────────── */
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+.font-display { font-family: 'Orbitron', sans-serif; }
+
+.text-cyan { color: var(--accent-cyan); }
+.text-green { color: var(--accent-green); }
+.text-red { color: var(--accent-red); }
+.text-amber { color: var(--accent-amber); }
+.text-muted { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+
+/* ─── Glass Morphism ───────────────────────────────────────────────────── */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-bright {
+  background: rgba(10, 22, 40, 0.88);
+  backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid var(--border-bright);
+}
+
+/* ─── Glow Text ───────────────────────────────────────────────────────── */
+.glow-text-cyan {
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 30px rgba(0, 212, 255, 0.4);
+}
+.glow-text-green {
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.8), 0 0 30px rgba(0, 255, 136, 0.4);
+}
+
+/* ─── Badge ────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-nominal {
+  background: rgba(0, 255, 136, 0.12);
+  color: var(--accent-green);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+.badge-warning {
+  background: rgba(255, 184, 0, 0.12);
+  color: var(--accent-amber);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+}
+.badge-critical {
+  background: rgba(255, 51, 85, 0.12);
+  color: var(--accent-red);
+  border: 1px solid rgba(255, 51, 85, 0.3);
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 51, 85, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 51, 85, 0); }
+}
+
+/* ─── Pulse dot ────────────────────────────────────────────────────────── */
+.dot-live {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: var(--glow-green);
+  animation: pulse-live 2s infinite;
+}
+
+@keyframes pulse-live {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+
+/* ─── Divider ──────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+  margin: 12px 0;
+}
+
+/* ─── Button ───────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border: none;
+  outline: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  color: var(--bg-void);
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 30px rgba(0, 212, 255, 0.5);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+.btn-ghost:hover {
+  border-color: var(--border-bright);
+  color: var(--accent-cyan);
+  background: rgba(0, 212, 255, 0.05);
+}
+
+/* ─── Input ────────────────────────────────────────────────────────────── */
+.input-field {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 8px 12px;
+  width: 100%;
+  transition: var(--transition-fast);
+  outline: none;
+}
+.input-field:focus {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+/* ─── Slider ───────────────────────────────────────────────────────────── */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bg-elevated);
+  outline: none;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+  cursor: pointer;
+}
+
+/* ─── Loading Skeleton ─────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Scan Line Effect ─────────────────────────────────────────────────── */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}

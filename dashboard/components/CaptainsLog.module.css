@@ -1,0 +1,160 @@
+/* ─── CaptainsLog ─────────────────────────────────────────────────────────── */
+
+.logContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.logHeader { flex-shrink: 0; padding: 0 0 2px; }
+
+.logTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logIcon { font-size: 16px; }
+
+.logTitle {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+  flex: 1;
+}
+
+.logSubtitle {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+  padding-left: 24px;
+}
+
+/* ─── Streaming dots ─────────────────────────────────────────────────────── */
+.streamIndicator {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.streamDot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  animation: streamBounce 1.2s ease-in-out infinite;
+}
+.streamDot:nth-child(2) { animation-delay: 0.2s; }
+.streamDot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes streamBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50%       { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ─── Body ───────────────────────────────────────────────────────────────── */
+.logBody {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+/* ─── Empty / Error ──────────────────────────────────────────────────────── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  text-align: center;
+  padding: 24px;
+}
+
+.emptyIcon {
+  font-size: 36px;
+  opacity: 0.3;
+}
+
+.emptyText {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 240px;
+}
+
+.errorState {
+  padding: 16px;
+  font-size: 12px;
+  color: var(--accent-amber);
+  background: rgba(255, 184, 0, 0.06);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+/* ─── Skeleton loading ───────────────────────────────────────────────────── */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.logSkeletonLine {
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, rgba(0,212,255,0.06) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ─── Log content ────────────────────────────────────────────────────────── */
+.logContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sectionHeader {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.logSpacer { height: 6px; }
+
+.logLine {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+}
+
+.bold {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ─── Blinking cursor ────────────────────────────────────────────────────── */
+.cursor {
+  display: inline-block;
+  color: var(--accent-cyan);
+  animation: blink 1s step-end infinite;
+  font-size: 12px;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}

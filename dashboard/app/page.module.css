@@ -1,0 +1,88 @@
+/* ─── Command Center Page Layout ──────────────────────────────────────────── */
+
+/* Remove default Next.js page module css — replaced entirely */
+.root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-void);
+  position: relative;
+}
+
+/* ─── Main 3-column layout ───────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr var(--sidebar-width);
+  grid-template-rows: 1fr;
+  flex: 1;
+  overflow: hidden;
+  margin-top: var(--topbar-height);
+  gap: 0;
+}
+
+/* ─── Left Sidebar ───────────────────────────────────────────────────────── */
+.leftSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-subtle);
+  background: rgba(6, 13, 20, 0.85);
+}
+
+/* ─── Globe Area ─────────────────────────────────────────────────────────── */
+.globeArea {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Right Sidebar ──────────────────────────────────────────────────────── */
+.rightSidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
+  border-left: 1px solid var(--border-subtle);
+  background: rgba(6, 13, 20, 0.9);
+  border-radius: 0;
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
+}
+
+/* ─── Globe placeholder while Cesium loads ──────────────────────────────── */
+.globePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-void);
+}
+
+.globeLoader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.globeSpinner {
+  width: 72px;
+  height: 72px;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--accent-cyan);
+  border-right-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: globeSpin 1.2s linear infinite;
+  box-shadow:
+    0 0 30px rgba(0, 212, 255, 0.3),
+    0 0 60px rgba(0, 212, 255, 0.1);
+}
+
+@keyframes globeSpin {
+  to { transform: rotate(360deg); }
+}
