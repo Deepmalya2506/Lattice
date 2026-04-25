@@ -1,119 +1,183 @@
-/* ─── RouteControls ───────────────────────────────────────────────────────── */
+/* ─── RouteControls.module.css (Minimalist) ─────────────────────────────── */
 
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 14px;
-  border-radius: 12px;
-  border-color: var(--border-bright);
+  gap: 16px;
+  padding: 0; /* Remove padding to blend with parent */
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
-.controlsTitle { display: flex; align-items: center; }
+.searchBox {
+  display: flex;
+  gap: 8px;
+}
 
-/* ─── Param row ──────────────────────────────────────────────────────────── */
-.param {
+.searchInput {
+  flex: 1;
+}
+
+.searchBtn {
+  background: var(--bg-deep);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 0 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.searchBtn:hover {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+/* Vessel Profile Card */
+.profileCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
-.paramHeader {
+.profileHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 8px;
+  margin-bottom: 4px;
 }
 
-.paramLabel {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
-}
-
-.paramValue {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.paramRange {
+.profileRow {
   display: flex;
   justify-content: space-between;
-  font-size: 9px;
+  font-size: 12px;
+}
+
+.profileLabel {
   color: var(--text-muted);
-  font-family: 'JetBrains Mono', monospace;
 }
 
-/* ─── Efficiency bar ─────────────────────────────────────────────────────── */
-.efficiency {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.profileValue {
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
-.ratioBar {
-  flex: 1;
-  height: 4px;
-  background: var(--bg-elevated);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.ratioFill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.4s ease, background 0.3s;
-  box-shadow: 0 0 6px currentColor;
-}
-
-/* ─── Fuel saving ────────────────────────────────────────────────────────── */
-.fuelSaving {
+.routePorts {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--accent-blue);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.routeArrow {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+/* Geopolitics Warning */
+.riskWarning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(220, 38, 38, 0.05);
+  border: 1px solid rgba(220, 38, 38, 0.2);
   padding: 8px 12px;
-  background: rgba(0, 255, 136, 0.06);
-  border: 1px solid rgba(0, 255, 136, 0.2);
-  border-radius: 8px;
+  border-radius: 6px;
+  margin-top: 8px;
 }
 
-.fuelIcon { font-size: 14px; }
-
-/* ─── Simulate button ────────────────────────────────────────────────────── */
-.simBtn {
-  width: 100%;
-  justify-content: center;
-  padding: 12px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  border-radius: 10px;
+.riskIcon {
+  color: var(--accent-red);
+  font-size: 14px;
 }
 
-.simBtn:disabled {
-  opacity: 0.6;
+.riskText {
+  display: flex;
+  flex-direction: column;
+}
+
+.riskRegion {
+  color: var(--accent-red);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.riskDesc {
+  color: var(--text-secondary);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* Action Buttons */
+.actionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btnDisabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  transform: none !important;
 }
 
 .btnSpinner {
-  width: 14px; height: 14px;
-  border: 2px solid rgba(2, 4, 8, 0.3);
-  border-top-color: var(--bg-void);
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.driftGraphContainer {
+  margin-top: 8px;
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
 }
 
-/* ─── Hint ───────────────────────────────────────────────────────────────── */
-.hint {
-  font-size: 10px;
-  color: var(--text-muted);
+.driftHeader {
+  font-size: 9px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 8px;
   text-align: center;
-  line-height: 1.5;
+  letter-spacing: 0.1em;
+}
+
+.driftStat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(248, 113, 113, 0.05);
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.statLabel {
+  font-size: 9px;
+  font-weight: 600;
+  color: #f87171;
+}
+
+.statValue {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
 }

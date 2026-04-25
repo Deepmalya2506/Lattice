@@ -51,3 +51,30 @@ export interface DriftDataPoint {
   lat: number;
   lon: number;
 }
+
+export interface Port {
+  name: string;
+  lat: number;
+  lon: number;
+  country: string;
+}
+
+export interface Geopolitics {
+  region: string;
+  risk_score: number;
+  event: string;
+}
+
+export interface Shipment {
+  mmsi: string;
+  name: string;
+  type: string;
+  tonnage: number;
+  engine_power: number;
+  origin: Port;
+  destination: Port;
+  status: string;
+  current_lat: number;
+  current_lon: number;
+  geopolitics: Geopolitics | null;
+}

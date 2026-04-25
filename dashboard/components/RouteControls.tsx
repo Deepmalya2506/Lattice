@@ -1,160 +1,176 @@
 "use client";
 
+import { useState } from "react";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import type { Shipment, SimulationResponse } from "@/lib/types";
 import styles from "./RouteControls.module.css";
 
 interface RouteControlsProps {
-  tonnage: number;
-  enginePower: number;
-  onTonnageChange: (v: number) => void;
-  onEnginePowerChange: (v: number) => void;
-  onSimulate: () => void;
+  shipment: Shipment | null;
+  onSearchMMSI: (mmsi: string) => void;
+  onOptimize: () => void;
+  simLevel: number;
   isLoading: boolean;
-  optimFuelSaving: number;
+  simData: SimulationResponse | null;
 }
 
 export default function RouteControls({
-  tonnage,
-  enginePower,
-  onTonnageChange,
-  onEnginePowerChange,
-  onSimulate,
+  shipment,
+  onSearchMMSI,
+  onOptimize,
+  simLevel,
   isLoading,
-  optimFuelSaving,
+  simData,
 }: RouteControlsProps) {
+  const [mmsiInput, setMmsiInput] = useState("");
+
+  const handleSearch = () => {
+    if (mmsiInput.trim()) {
+      onSearchMMSI(mmsiInput.trim());
+    }
+  };
+
+  // Convert simData to chart format
+  const getChartData = () => {
+    if (!simData) return [];
+    return simData.realized_path.map((_, i) => {
+      const idealPt = simData.ideal_path[i];
+      const realPt = simData.realized_path[i];
+      let d = 0;
+      if (idealPt && realPt) {
+        // Approximate distance in km for the chart
+        d = Math.sqrt(Math.pow(realPt[0] - idealPt[0], 2) + Math.pow(realPt[1] - idealPt[1], 2)) * 111.32;
+      }
+      return { step: i, drift: parseFloat(d.toFixed(2)) };
+    });
+  };
+
   return (
-    <div className={`${styles.controls} glass`}>
-      <div className={styles.controlsTitle}>
-        <span className="font-display" style={{ fontSize: 11, letterSpacing: "0.14em", color: "var(--accent-cyan)" }}>
-          ⬡ VESSEL PARAMETERS
-        </span>
+    <div className={styles.controls}>
+      <div className={styles.searchBox}>
+        <input
+          type="text"
+          className={`${styles.searchInput} input-field`}
+          placeholder="Enter MMSI (e.g. 101234567)"
+          value={mmsiInput}
+          onChange={(e) => setMmsiInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        />
+        <button className={styles.searchBtn} onClick={handleSearch}>
+          FIND
+        </button>
       </div>
 
       <div className="divider" />
 
-      {/* Tonnage Slider */}
-      <div className={styles.param}>
-        <div className={styles.paramHeader}>
-          <span className={styles.paramLabel}>TONNAGE</span>
-          <span className={`${styles.paramValue} font-mono text-amber`}>
-            {tonnage.toLocaleString()} t
-          </span>
-        </div>
-        <input
-          type="range"
-          className="slider"
-          min={500}
-          max={15000}
-          step={100}
-          value={tonnage}
-          onChange={(e) => onTonnageChange(Number(e.target.value))}
-        />
-        <div className={styles.paramRange}>
-          <span>500t</span>
-          <span>15,000t</span>
-        </div>
-      </div>
+      {shipment ? (
+        <>
+          <div className={styles.profileCard}>
+            <div className={styles.profileHeader}>
+              <span className="font-display text-cyan" style={{ fontSize: 13 }}>
+                {shipment.name}
+              </span>
+              <span className="font-mono" style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                MMSI: {shipment.mmsi}
+              </span>
+            </div>
+            
+            <div className={styles.profileRow}>
+              <span className={styles.profileLabel}>TYPE</span>
+              <span className={styles.profileValue}>{shipment.type}</span>
+            </div>
+            <div className={styles.profileRow}>
+              <span className={styles.profileLabel}>TONNAGE</span>
+              <span className={styles.profileValue}>{shipment.tonnage.toLocaleString()} t</span>
+            </div>
+            <div className={styles.profileRow}>
+              <span className={styles.profileLabel}>POWER</span>
+              <span className={styles.profileValue}>{shipment.engine_power.toLocaleString()} kW</span>
+            </div>
 
-      {/* Engine Power Slider */}
-      <div className={styles.param}>
-        <div className={styles.paramHeader}>
-          <span className={styles.paramLabel}>ENGINE POWER</span>
-          <span className={`${styles.paramValue} font-mono text-amber`}>
-            {enginePower.toLocaleString()} kW
-          </span>
-        </div>
-        <input
-          type="range"
-          className="slider"
-          min={500}
-          max={8000}
-          step={100}
-          value={enginePower}
-          onChange={(e) => onEnginePowerChange(Number(e.target.value))}
-        />
-        <div className={styles.paramRange}>
-          <span>500 kW</span>
-          <span>8,000 kW</span>
-        </div>
-      </div>
+            <div className={styles.routePorts}>
+              <span>{shipment.origin.name}</span>
+              <span className={styles.routeArrow}>▶</span>
+              <span>{shipment.destination.name}</span>
+            </div>
 
-      <div className="divider" />
+            {shipment.geopolitics && (
+              <div className={styles.riskWarning}>
+                <div className={styles.riskIcon}>⚠️</div>
+                <div className={styles.riskText}>
+                  <span className={styles.riskRegion}>{shipment.geopolitics.region} RISK</span>
+                  <span className={styles.riskDesc}>{shipment.geopolitics.event}</span>
+                </div>
+              </div>
+            )}
+          </div>
 
-      {/* Efficiency indicator */}
-      <div className={styles.efficiency}>
-        <span className={styles.paramLabel}>T/P RATIO</span>
-        <div className={styles.ratioBar}>
-          <div
-            className={styles.ratioFill}
-            style={{
-              width: `${Math.min(100, (tonnage / enginePower) * 10)}%`,
-              background:
-                tonnage / enginePower > 5
-                  ? "var(--accent-red)"
-                  : tonnage / enginePower > 2.5
-                  ? "var(--accent-amber)"
-                  : "var(--accent-green)",
-            }}
-          />
-        </div>
-        <span
-          className="font-mono"
-          style={{
-            fontSize: 11,
-            color:
-              tonnage / enginePower > 5
-                ? "var(--accent-red)"
-                : tonnage / enginePower > 2.5
-                ? "var(--accent-amber)"
-                : "var(--accent-green)",
-          }}
-        >
-          {(tonnage / enginePower).toFixed(2)} t/kW
-        </span>
-      </div>
+          <div className={styles.actionGroup}>
+            <button
+              className={`btn btn-primary ${isLoading || simLevel > 0 ? styles.btnDisabled : ""}`}
+              onClick={onOptimize}
+              disabled={isLoading || simLevel > 0}
+              style={{ justifyContent: "center", padding: "12px" }}
+            >
+              {isLoading ? (
+                <><div className={styles.btnSpinner} /> OPTIMIZING...</>
+              ) : simLevel > 0 ? (
+                <>✓ ROUTE OPTIMIZED</>
+              ) : (
+                <>OPTIMIZE PATH</>
+              )}
+            </button>
 
-      {optimFuelSaving > 0 && (
-        <div className={styles.fuelSaving}>
-          <span className={styles.fuelIcon}>⚡</span>
-          <span className="font-mono text-green" style={{ fontSize: 12 }}>
-            A* saves {optimFuelSaving.toFixed(1)}% fuel
-          </span>
+            {simLevel === 2 && (
+              <a 
+                href={`/console?mmsi=${shipment.mmsi}`}
+                className="btn btn-ghost"
+                style={{ justifyContent: "center" }}
+              >
+                OPEN CAPTAIN'S CONSOLE
+              </a>
+            )}
+          </div>
+
+          {/* Embedded small drift graph */}
+          {simData && (
+            <div className={styles.driftGraphContainer} style={{ minHeight: 140 }}>
+              <div className={styles.driftHeader}>PI-LSTM NEURAL INFERENCE DRIFT</div>
+              
+              <div className={styles.driftStat}>
+                <span className={styles.statLabel}>PREDICTED DRIFT:</span>
+                <span className={styles.statValue}>{simData.total_drift_km.toFixed(2)} KM</span>
+              </div>
+
+              <div style={{ height: 100, width: "100%", position: "relative", marginTop: 8 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={getChartData()} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorDrift" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f87171" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#f87171" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="step" hide />
+                    <YAxis hide domain={[0, 'auto']} />
+                    <Tooltip 
+                      contentStyle={{ background: "#0f172a", border: "1px solid rgba(255,255,255,0.1)", fontSize: 10 }}
+                      itemStyle={{ color: "#f87171" }}
+                      formatter={(value: number) => [`${value} km`, 'Inference']}
+                      labelFormatter={() => ''}
+                    />
+                    <Area type="monotone" dataKey="drift" stroke="#f87171" strokeWidth={2} fillOpacity={1} fill="url(#colorDrift)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <div style={{ padding: "10px", textAlign: "center", color: "var(--text-muted)", fontSize: 12 }}>
+          Search for an MMSI to view vessel profile.
         </div>
       )}
-
-      <div className="divider" />
-
-      {/* Simulate button */}
-      <button
-        className={`btn btn-primary ${styles.simBtn}`}
-        onClick={onSimulate}
-        disabled={isLoading}
-        id="simulate-btn"
-      >
-        {isLoading ? (
-          <>
-            <div className={styles.btnSpinner} />
-            COMPUTING...
-          </>
-        ) : (
-          <>⟁ RUN SIMULATION</>
-        )}
-      </button>
-
-      {/* Export button */}
-      <button
-        className={`btn btn-ghost ${styles.simBtn}`}
-        style={{ marginTop: "-4px" }}
-        onClick={() => {
-          const evt = new CustomEvent("exportJsonRequested");
-          window.dispatchEvent(evt);
-        }}
-      >
-        📥 EXPORT AS JSON
-      </button>
-
-      <div className={styles.hint}>
-        Place pins on the globe, then run simulation to compute all three paths.
-      </div>
     </div>
   );
 }

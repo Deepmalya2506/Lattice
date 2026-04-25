@@ -4,34 +4,55 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export async function POST(req: NextRequest) {
-  const { shipName, tonnage, enginePower, driftKm, uo, vo, startLat, startLon, endLat, endLon } =
+  const { shipName, tonnage, enginePower, driftKm, uo, vo, startLat, startLon, endLat, endLon, geopolitics } =
     await req.json();
 
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+  const MODELS = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
+  let model: any = null;
+  let usedModelName = "";
 
-  const prompt = `You are a Senior Maritime Engineer and AI analyst for the Lattice Maritime Intelligence Platform.
+  for (const modelName of MODELS) {
+    try {
+      model = genAI.getGenerativeModel({ model: modelName });
+      // We don't know if it's available until we try to generate, but we'll try to pick one
+      usedModelName = modelName;
+      break;
+    } catch (e) {
+      console.warn(`Model ${modelName} unavailable, trying next...`);
+    }
+  }
+
+  const prompt = `You are the Lattice Intelligence Core (Model: ${usedModelName}) acting as a Senior Maritime Analyst.
 
 Ship: "${shipName ?? "MV-Alpha"}"
-Voyage: (${startLat?.toFixed(2)}°, ${startLon?.toFixed(2)}°) → (${endLat?.toFixed(2)}°, ${endLon?.toFixed(2)}°)
-Tonnage: ${tonnage} metric tons
-Engine Power: ${enginePower} kW
+Voyage: (${startLat?.toFixed(2)}°) → (${endLat?.toFixed(2)}°)
+Tonnage: ${tonnage} t
 Predicted Drift: ${driftKm?.toFixed(2)} km
-Ocean Current Vectors: U (Eastward) = ${uo?.toFixed(3)} m/s, V (Northward) = ${vo?.toFixed(3)} m/s
+GBDELT Feed: ${geopolitics ?? "No alert"}
 
-As the Lattice AI, provide a technical Captain's Log entry that:
-1. Explains the physics behind the predicted ${driftKm?.toFixed(2)} km drift using the U and V current vectors.
-2. Assesses the risk level (LOW / MEDIUM / HIGH) based on tonnage-to-power ratio.
-3. Recommends whether engine power should be increased or if route correction is needed.
-4. Mentions any fuel efficiency opportunities given the current direction.
-
-Keep the tone authoritative and technical. Format with clear sections: **DRIFT ANALYSIS**, **RISK ASSESSMENT**, **RECOMMENDATION**, **EFFICIENCY NOTE**. Use nautical terminology.`;
+Provide a technical Captain's Log entry analyzing the PI-LSTM drift vs currents and regional risk.
+Keep it authoritative and technical. Format with sections: **PHYSICS DRIFT**, **GEOPOLITICAL INTELLIGENCE**, **OPTIMIZATION RATIONALE**, **EFFICIENCY**.`;
 
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        const result = await model.generateContentStream(prompt);
+        let result;
+        // Try models sequentially for the actual generation
+        for (const mName of MODELS) {
+          try {
+            const m = genAI.getGenerativeModel({ model: mName });
+            result = await m.generateContentStream(prompt.replace(usedModelName, mName));
+            console.log(`[Explain] Successfully using ${mName}`);
+            break;
+          } catch (err) {
+            console.warn(`[Explain] ${mName} failed, falling back...`);
+          }
+        }
+
+        if (!result) throw new Error("All models failed.");
+
         for await (const chunk of result.stream) {
           const text = chunk.text();
           if (text) {

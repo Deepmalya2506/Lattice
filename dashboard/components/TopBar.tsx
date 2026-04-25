@@ -68,12 +68,9 @@ export default function TopBar({
 
         <div className={styles.metric}>
           <span className={styles.metricLabel}>VESSEL</span>
-          <input
-            className={`${styles.shipInput} font-mono`}
-            value={shipName}
-            onChange={(e) => onShipNameChange(e.target.value)}
-            maxLength={20}
-          />
+          <span className={`${styles.shipInput} font-mono`} style={{ border: "none", background: "transparent" }}>
+            {shipName}
+          </span>
         </div>
       </div>
 

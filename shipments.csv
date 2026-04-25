@@ -1,0 +1,51 @@
+mmsi,name,type,tonnage,engine_power,status,orig_code,orig_name,orig_lat,orig_lon,orig_country,dest_code,dest_name,dest_lat,dest_lon,dest_country,risk_region,risk_score,risk_event
+101234567,EVER GLOBE 1,Container Ship,11732,3882,In Transit,TOK,Tokyo,35.61,139.79,JP,LGB,Long Beach,33.75,-118.21,US,,0.0,
+102469134,COSCO SHIPPING UNIVERSE 2,Container Ship,8714,3074,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+103703701,MAERSK VOYAGER 3,Bulk Carrier,18934,8037,In Transit,TOK,Tokyo,35.61,139.79,JP,LGB,Long Beach,33.75,-118.21,US,,0.0,
+104938268,MV LATTICE 4,Bulk Carrier,5806,2242,In Transit,SGP,Singapore,1.27,103.8,SG,DXB,Jebel Ali,25.01,55.05,AE,Strait of Hormuz,0.8,High naval tensions
+106172835,HYUNDAI ALGECIRAS 5,Oil Tanker,5798,3458,In Transit,DXB,Jebel Ali,25.01,55.05,AE,SGP,Singapore,1.27,103.8,SG,Strait of Hormuz,0.8,High naval tensions
+107407402,HYUNDAI ALGECIRAS 6,Bulk Carrier,11899,5979,In Transit,SHA,Shanghai,31.22,122.0,CN,SGP,Singapore,1.27,103.8,SG,South China Sea,0.6,Territorial disputes
+108641969,EVER GLOBE 7,Oil Tanker,6556,2230,In Transit,ROT,Rotterdam,51.95,4.05,NL,NYC,New York,40.67,-74.04,US,,0.0,
+109876536,HYUNDAI ALGECIRAS 8,Bulk Carrier,19445,7065,In Transit,DXB,Jebel Ali,25.01,55.05,AE,SGP,Singapore,1.27,103.8,SG,Strait of Hormuz,0.8,High naval tensions
+111111103,MAERSK VOYAGER 9,Bulk Carrier,19888,8007,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+112345670,OOCL HONG KONG 10,Container Ship,10772,3778,In Transit,ROT,Rotterdam,51.95,4.05,NL,NYC,New York,40.67,-74.04,US,,0.0,
+113580237,MV LATTICE 11,Oil Tanker,21243,11092,In Transit,SHA,Shanghai,31.22,122.0,CN,LGB,Long Beach,33.75,-118.21,US,South China Sea,0.6,Territorial disputes
+114814804,MAERSK VOYAGER 12,Bulk Carrier,23968,13237,In Transit,SHA,Shanghai,31.22,122.0,CN,LGB,Long Beach,33.75,-118.21,US,South China Sea,0.6,Territorial disputes
+116049371,HYUNDAI ALGECIRAS 13,Bulk Carrier,22962,9914,In Transit,SHA,Shanghai,31.22,122.0,CN,LGB,Long Beach,33.75,-118.21,US,South China Sea,0.6,Territorial disputes
+117283938,MSC ISABELLA 14,Oil Tanker,15093,6134,In Transit,NYC,New York,40.67,-74.04,US,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+118518505,MAERSK VOYAGER 15,Bulk Carrier,22422,10451,In Transit,ROT,Rotterdam,51.95,4.05,NL,NYC,New York,40.67,-74.04,US,,0.0,
+119753072,HYUNDAI ALGECIRAS 16,Container Ship,16910,9908,In Transit,LGB,Long Beach,33.75,-118.21,US,SHA,Shanghai,31.22,122.0,CN,South China Sea,0.6,Territorial disputes
+120987639,OOCL HONG KONG 17,Container Ship,10157,5204,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+122222206,MV LATTICE 18,Container Ship,23747,10674,In Transit,CPT,Cape Town,-33.9,18.42,ZA,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+123456773,MSC ISABELLA 19,Container Ship,8980,3995,In Transit,ROT,Rotterdam,51.95,4.05,NL,NYC,New York,40.67,-74.04,US,,0.0,
+124691340,MV LATTICE 20,Container Ship,21616,11977,In Transit,CPT,Cape Town,-33.9,18.42,ZA,SAN,Santos,-23.97,-46.29,BR,,0.0,
+125925907,HAPAG LLOYD BERLIN 21,Container Ship,8355,3713,In Transit,SHA,Shanghai,31.22,122.0,CN,SGP,Singapore,1.27,103.8,SG,South China Sea,0.6,Territorial disputes
+127160474,HAPAG LLOYD BERLIN 22,Container Ship,21075,11161,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+128395041,MAERSK VOYAGER 23,Container Ship,7698,2647,In Transit,ROT,Rotterdam,51.95,4.05,NL,CPT,Cape Town,-33.9,18.42,ZA,,0.0,
+129629608,COSCO SHIPPING UNIVERSE 24,Oil Tanker,19438,9241,In Transit,LGB,Long Beach,33.75,-118.21,US,SHA,Shanghai,31.22,122.0,CN,South China Sea,0.6,Territorial disputes
+130864175,COSCO SHIPPING UNIVERSE 25,Container Ship,16404,7969,In Transit,CPT,Cape Town,-33.9,18.42,ZA,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+132098742,MAERSK VOYAGER 26,Oil Tanker,5907,1995,In Transit,TOK,Tokyo,35.61,139.79,JP,LGB,Long Beach,33.75,-118.21,US,,0.0,
+133333309,COSCO SHIPPING UNIVERSE 27,Container Ship,22208,7528,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+134567876,MV LATTICE 28,Oil Tanker,13259,6380,In Transit,SHA,Shanghai,31.22,122.0,CN,SGP,Singapore,1.27,103.8,SG,South China Sea,0.6,Territorial disputes
+135802443,COSCO SHIPPING UNIVERSE 29,Bulk Carrier,16853,8098,In Transit,LGB,Long Beach,33.75,-118.21,US,TOK,Tokyo,35.61,139.79,JP,,0.0,
+137037010,HAPAG LLOYD BERLIN 30,Oil Tanker,8688,3519,In Transit,SHA,Shanghai,31.22,122.0,CN,SGP,Singapore,1.27,103.8,SG,South China Sea,0.6,Territorial disputes
+138271577,CMA CGM ANTOINE 31,Oil Tanker,7443,2796,In Transit,SAN,Santos,-23.97,-46.29,BR,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+139506144,HYUNDAI ALGECIRAS 32,Bulk Carrier,22691,9820,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+140740711,MV LATTICE 33,Bulk Carrier,11692,4640,In Transit,CPT,Cape Town,-33.9,18.42,ZA,SAN,Santos,-23.97,-46.29,BR,,0.0,
+141975278,HAPAG LLOYD BERLIN 34,Bulk Carrier,23995,8295,In Transit,DXB,Jebel Ali,25.01,55.05,AE,SGP,Singapore,1.27,103.8,SG,Strait of Hormuz,0.8,High naval tensions
+143209845,HAPAG LLOYD BERLIN 35,Bulk Carrier,23561,9820,In Transit,LGB,Long Beach,33.75,-118.21,US,SHA,Shanghai,31.22,122.0,CN,South China Sea,0.6,Territorial disputes
+144444412,PACIFIC TRADER 36,Container Ship,21428,9108,In Transit,NYC,New York,40.67,-74.04,US,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+145678979,EVER GLOBE 37,Container Ship,15391,6192,In Transit,SGP,Singapore,1.27,103.8,SG,DXB,Jebel Ali,25.01,55.05,AE,Strait of Hormuz,0.8,High naval tensions
+146913546,MV LATTICE 38,Container Ship,12619,6104,In Transit,SAN,Santos,-23.97,-46.29,BR,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+148148113,CMA CGM ANTOINE 39,Oil Tanker,16796,5758,In Transit,LGB,Long Beach,33.75,-118.21,US,TOK,Tokyo,35.61,139.79,JP,,0.0,
+149382680,MAERSK VOYAGER 40,Bulk Carrier,7126,3162,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+150617247,EVER GLOBE 41,Bulk Carrier,14225,6893,In Transit,CPT,Cape Town,-33.9,18.42,ZA,SAN,Santos,-23.97,-46.29,BR,,0.0,
+151851814,OOCL HONG KONG 42,Bulk Carrier,18934,9783,In Transit,SGP,Singapore,1.27,103.8,SG,CPT,Cape Town,-33.9,18.42,ZA,,0.0,
+153086381,COSCO SHIPPING UNIVERSE 43,Bulk Carrier,9936,5423,In Transit,ROT,Rotterdam,51.95,4.05,NL,SAN,Santos,-23.97,-46.29,BR,,0.0,
+154320948,OOCL HONG KONG 44,Bulk Carrier,17340,8429,In Transit,NYC,New York,40.67,-74.04,US,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+155555515,MV LATTICE 45,Oil Tanker,9381,4963,In Transit,LGB,Long Beach,33.75,-118.21,US,SHA,Shanghai,31.22,122.0,CN,South China Sea,0.6,Territorial disputes
+156790082,PACIFIC TRADER 46,Bulk Carrier,10073,4293,In Transit,LGB,Long Beach,33.75,-118.21,US,TOK,Tokyo,35.61,139.79,JP,,0.0,
+158024649,EVER GLOBE 47,Bulk Carrier,9605,4798,In Transit,ROT,Rotterdam,51.95,4.05,NL,CPT,Cape Town,-33.9,18.42,ZA,,0.0,
+159259216,MSC ISABELLA 48,Oil Tanker,14819,5071,In Transit,CPT,Cape Town,-33.9,18.42,ZA,ROT,Rotterdam,51.95,4.05,NL,,0.0,
+160493783,COSCO SHIPPING UNIVERSE 49,Bulk Carrier,22392,8911,In Transit,ROT,Rotterdam,51.95,4.05,NL,CPT,Cape Town,-33.9,18.42,ZA,,0.0,
+161728350,OOCL HONG KONG 50,Bulk Carrier,17379,8361,In Transit,SAN,Santos,-23.97,-46.29,BR,ROT,Rotterdam,51.95,4.05,NL,,0.0,
