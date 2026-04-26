@@ -1,37 +1,34 @@
-/* ─── Lattice Maritime Command Center — Global Design System ─────────────── */
+/* ─── Lattice Maritime Command Center — Oceanic Elegance ─────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* ─── CSS Variables ─────────────────────────────────────────────────────── */
 :root {
-  /* Core palette - Soft & Minimalist */
-  --bg-void:         #f0f4f8;
-  --bg-deep:         #e2e8f0;
-  --bg-surface:      #ffffff;
-  --bg-elevated:     #ffffff;
-  --bg-glass:        rgba(255, 255, 255, 0.85);
+  /* Core palette - Oceanic Elegance */
+  --bg-void:         #050d1a;
+  --bg-deep:         #0a192f;
+  --bg-surface:      rgba(10, 25, 47, 0.7);
+  --bg-elevated:     rgba(10, 25, 47, 0.85);
+  --bg-glass:        rgba(255, 255, 255, 0.03);
 
-  /* Accent spectrum - Soft Blues and Grays */
-  --accent-cyan:     #0284c7;
-  --accent-cyan-dim: #38bdf8;
-  --accent-blue:     #2563eb;
-  --accent-green:    #16a34a;
-  --accent-green-dim:#4ade80;
-  --accent-red:      #dc2626;
-  --accent-red-dim:  #f87171;
+  /* Accent spectrum - Oceanic */
+  --accent-cyan:     #38bdf8;
+  --accent-blue:     #3b82f6;
+  --accent-green:    #10b981;
+  --accent-red:      #ef4444;
   --accent-amber:    #d97706;
-  --accent-purple:   #7c3aed;
 
-  /* Text - Dark Professional */
-  --text-primary:    #0f172a;
-  --text-secondary:  #475569;
+  /* Text - Parchment & Slate */
+  --text-primary:    #f8fafc;
+  --text-secondary:  #cbd5e1;
   --text-muted:      #94a3b8;
-  --text-accent:     #0284c7;
+  --text-accent:     #38bdf8;
 
-  /* Borders */
-  --border-subtle:   rgba(15, 23, 42, 0.1);
-  --border-bright:   rgba(15, 23, 42, 0.2);
-  --border-glow:     rgba(15, 23, 42, 0.3);
+  /* Borders & Shadows */
+  --border-subtle:   rgba(255, 255, 255, 0.1);
+  --border-bright:   rgba(255, 255, 255, 0.2);
+  --shadow-soft:     0 20px 40px rgba(0, 0, 0, 0.4);
 
   /* Spacing */
   --sidebar-width: 340px;
@@ -43,7 +40,6 @@
   --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ─── Reset & Base ──────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -51,14 +47,18 @@
 }
 
 html, body {
-  height: 100%;
-  overflow: hidden;
-  background: var(--bg-void);
+  min-height: 100vh;
+  background: var(--bg-deep);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), serif;
+  font-weight: 600;
 }
 
 /* Hide Cesium UI Clutter */
@@ -72,13 +72,14 @@ html, body {
 }
 
 /* ─── Scrollbars ───────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: var(--bg-deep); }
-::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-void); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* ─── Utility Classes ──────────────────────────────────────────────────── */
 .font-mono { font-family: 'JetBrains Mono', monospace; }
-.font-display { font-family: 'Inter', sans-serif; font-weight: 600; }
+.font-display { font-family: var(--font-playfair), serif; }
 
 .text-cyan { color: var(--accent-cyan); }
 .text-green { color: var(--accent-green); }
@@ -90,16 +91,18 @@ html, body {
 /* ─── Glass Morphism ───────────────────────────────────────────────────── */
 .glass {
   background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-soft);
+  border-radius: 8px;
 }
 
 .glass-bright {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-bright);
+  box-shadow: var(--shadow-soft);
+  border-radius: 8px;
 }
 
 /* ─── Button ───────────────────────────────────────────────────────────── */
@@ -107,23 +110,27 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-family: var(--font-inter), sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition-smooth);
-  border: none;
+  border: 1px solid transparent;
   outline: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .btn-primary {
-  background: var(--accent-blue);
-  color: #ffffff;
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+  background: var(--text-primary);
+  color: var(--bg-deep);
 }
 .btn-primary:hover {
-  background: #1d4ed8;
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-bright);
 }
 
 .btn-ghost {
@@ -134,29 +141,39 @@ html, body {
 .btn-ghost:hover {
   border-color: var(--border-bright);
   color: var(--text-primary);
-  background: rgba(15, 23, 42, 0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ─── Input ────────────────────────────────────────────────────────────── */
 .input-field {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-subtle);
-  border-radius: 6px;
+  border-radius: 4px;
   color: var(--text-primary);
+  font-family: var(--font-inter), sans-serif;
   font-size: 13px;
-  padding: 8px 12px;
+  padding: 10px 14px;
   width: 100%;
   transition: var(--transition-fast);
   outline: none;
 }
 .input-field:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: var(--accent-cyan);
+  background: rgba(255, 255, 255, 0.08);
 }
 
-/* ─── Divider ──────────────────────────────────────────────────────────── */
+/* ─── Page Transitions ────────────────────────────────────────────────── */
+.page-transition-wrapper {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .divider {
   height: 1px;
   background: var(--border-subtle);
-  margin: 12px 0;
+  margin: 16px 0;
 }

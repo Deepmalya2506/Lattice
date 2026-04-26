@@ -81,15 +81,17 @@ function HeatmapMap({ geopolData, oceanData }: { geopolData: number[][], oceanDa
 
 import { BarChart, Bar, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 
+import { useShipState } from "@/lib/ShipStateContext";
+
 // ... (existing HeatmapMap component) ...
 
 export default function CaptainsConsole() {
   const searchParams = useSearchParams();
-  const mmsi = searchParams.get("mmsi");
+  const mmsiParam = searchParams.get("mmsi");
+  const { mmsi, shipment, setShipment, simData, setSimData, optimData, setOptimData } = useShipState();
 
-  const [shipment, setShipment] = useState<Shipment | null>(null);
-  const [simData, setSimData] = useState<SimulationResponse | null>(null);
-  const [optimData, setOptimData] = useState<OptimizeResponse | null>(null);
+  const currentMmsi = mmsi || mmsiParam;
+
   const [logText, setLogText] = useState("Awaiting neural synchronization...");
   const [loading, setLoading] = useState(true);
 
@@ -98,10 +100,10 @@ export default function CaptainsConsole() {
     if (!simData) return [];
     const risk = shipment?.geopolitics?.risk_score || 0.1;
     return [
-      { name: "Currents", value: 42, color: "#eab308" },
+      { name: "Currents", value: 42, color: "#38bdf8" },
       { name: "Geopolitics", value: risk * 100, color: "#a855f7" },
-      { name: "Ship Drag", value: 25, color: "#64748b" },
-      { name: "Non-linearity", value: 15, color: "#22c55e" }
+      { name: "Ship Drag", value: 25, color: "#cbd5e1" },
+      { name: "Non-linearity", value: 15, color: "#10b981" }
     ];
   }, [simData, shipment]);
 
@@ -135,61 +137,69 @@ export default function CaptainsConsole() {
 
   useEffect(() => {
     async function fetchData() {
-      if (!mmsi || explainedMmsiRef.current === mmsi) return;
+      if (!currentMmsi || explainedMmsiRef.current === currentMmsi) return;
       
       try {
         setLoading(true);
-        const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8000";
-        const shipRes = await fetch(`${url}/api/shipment/${mmsi}`);
-        if (!shipRes.ok) return;
-        const ship = await shipRes.json();
-        setShipment(ship);
+        let currentShip = shipment;
+        let currentSim = simData;
+        
+        if (!currentShip || !currentSim) {
+          const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8000";
+          const shipRes = await fetch(`${url}/api/shipment/${currentMmsi}`);
+          if (!shipRes.ok) throw new Error("Shipment not found");
+          currentShip = await shipRes.json();
+          setShipment(currentShip);
 
-        const [sRes, oRes] = await Promise.all([
-          fetch("/api/simulate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              start_lat: ship.origin.lat, start_lon: ship.origin.lon,
-              end_lat: ship.destination.lat, end_lon: ship.destination.lon,
-              tonnage: ship.tonnage, engine_power: ship.engine_power,
+          const [sRes, oRes] = await Promise.all([
+            fetch("/api/simulate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                start_lat: currentShip!.origin.lat, start_lon: currentShip!.origin.lon,
+                end_lat: currentShip!.destination.lat, end_lon: currentShip!.destination.lon,
+                tonnage: currentShip!.tonnage, engine_power: currentShip!.engine_power,
+              }),
             }),
-          }),
-          fetch("/api/optimize", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              start_lat: ship.origin.lat, start_lon: ship.origin.lon,
-              end_lat: ship.destination.lat, end_lon: ship.destination.lon,
-              tonnage: ship.tonnage, engine_power: ship.engine_power,
-            }),
-          })
-        ]);
+            fetch("/api/optimize", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                start_lat: currentShip!.origin.lat, start_lon: currentShip!.origin.lon,
+                end_lat: currentShip!.destination.lat, end_lon: currentShip!.destination.lon,
+                tonnage: currentShip!.tonnage, engine_power: currentShip!.engine_power,
+              }),
+            })
+          ]);
 
-        const sData = await sRes.json();
-        const oData = await oRes.json();
-        setSimData(sData);
-        setOptimData(oData);
+          currentSim = await sRes.json();
+          setSimData(currentSim);
+          setOptimData(await oRes.json());
+        }
 
         // TRIGGER EXPLAINER (Once per MMSI)
-        explainedMmsiRef.current = mmsi;
+        explainedMmsiRef.current = currentMmsi;
         
         const explainRes = await fetch("/api/explain", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            shipName: ship.name,
-            tonnage: ship.tonnage,
-            enginePower: ship.engine_power,
-            driftKm: sData.total_drift_km,
+            shipName: currentShip!.name,
+            tonnage: currentShip!.tonnage,
+            enginePower: currentShip!.engine_power,
+            driftKm: currentSim?.total_drift_km || 0,
             uo: 0.15, vo: 0.05,
-            startLat: ship.origin.lat, startLon: ship.origin.lon,
-            endLat: ship.destination.lat, endLon: ship.destination.lon,
-            geopolitics: ship.geopolitics ? ship.geopolitics.event : "Normal"
+            startLat: currentShip!.origin.lat, startLon: currentShip!.origin.lon,
+            endLat: currentShip!.destination.lat, endLon: currentShip!.destination.lon,
+            geopolitics: currentShip!.geopolitics ? currentShip!.geopolitics.event : "Normal"
           }),
         });
 
-        if (!explainRes.body) return;
+        if (!explainRes.ok || !explainRes.body) {
+           setLogText("⚠️ XAI Core unavailable. Utilizing standard heuristic mapping.");
+           return;
+        }
+        
         const reader = explainRes.body.getReader();
         const decoder = new TextDecoder();
         setLogText("");
@@ -199,7 +209,8 @@ export default function CaptainsConsole() {
           setLogText(prev => prev + decoder.decode(value));
         }
       } catch (err) {
-        console.error(err);
+        console.error("Captains Console Sync Error:", err);
+        setLogText("⚠️ Neural synchronization failed. Retrying connection...");
       } finally {
         setLoading(false);
       }
@@ -208,7 +219,7 @@ export default function CaptainsConsole() {
   }, [mmsi]);
 
 
-  if (!mmsi) return (
+  if (!currentMmsi) return (
     <div className={styles.root} style={{ alignItems: "center", justifyContent: "center" }}>
       <div className={styles.card} style={{ maxWidth: 400, textAlign: "center" }}>
         <div className={styles.cardTitle} style={{ color: "var(--accent-red)" }}>SYSTEM ERROR</div>

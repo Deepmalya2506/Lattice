@@ -1,29 +1,35 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { ShipStateProvider } from "@/lib/ShipStateContext";
+import Navbar from "@/components/Navbar";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  title: "Lattice | Maritime Command Center",
-  description:
-    "4D Maritime Digital Twin — AI-powered route optimization, drift prediction, and ocean intelligence for B2B supply chain logistics.",
-  keywords: ["maritime", "logistics", "AI", "route optimization", "digital twin"],
-  openGraph: {
-    title: "Lattice Maritime Command Center",
-    description: "AI-driven 4D maritime navigation and drift prediction platform",
-    type: "website",
-  },
+  title: "Lattice | Oceanic Elegance",
+  description: "Real-time maritime drift prediction and path optimization powered by Physics-Informed Neural Networks.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <head>
-        {/* Cesium stylesheet required for 3D globe chrome */}
         <link
           rel="stylesheet"
-          href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css"
+          href="https://unpkg.com/cesium@1.114.0/Build/Cesium/Widgets/widgets.css"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ShipStateProvider>
+          <Navbar />
+          <div className="page-transition-wrapper">
+            {children}
+          </div>
+        </ShipStateProvider>
+      </body>
     </html>
   );
 }
+
