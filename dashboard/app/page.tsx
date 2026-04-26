@@ -39,7 +39,7 @@ export default function CommandCenter() {
   useEffect(() => {
     async function fetchMapOfTrade() {
       try {
-        const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8001";
+        const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8000";
         const res = await fetch(`${url}/api/shipments`);
         if (res.ok) {
           const data = await res.json();
@@ -60,7 +60,7 @@ export default function CommandCenter() {
     setOptimData(null);
 
     try {
-      const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8001";
+      const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8000";
       const res = await fetch(`${url}/api/shipment/${mmsi}`);
       if (res.ok) {
         const ship = await res.json();

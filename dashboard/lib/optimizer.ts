@@ -6,7 +6,7 @@
 
 import type { LatLon, OptimizeResponse } from "./types";
 
-const OPTIMIZER_URL = process.env.NEXT_PUBLIC_OPTIMIZER_URL ?? "http://localhost:8001";
+const OPTIMIZER_URL = process.env.NEXT_PUBLIC_OPTIMIZER_URL ?? "http://localhost:8000";
 
 /** Haversine distance in km between two lat/lon points */
 export function haversineKm(a: LatLon, b: LatLon): number {

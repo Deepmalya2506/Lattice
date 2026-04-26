@@ -79,7 +79,7 @@ function HeatmapMap({ geopolData, oceanData }: { geopolData: number[][], oceanDa
   );
 }
 
-import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 
 // ... (existing HeatmapMap component) ...
 
@@ -90,7 +90,7 @@ export default function CaptainsConsole() {
   const [shipment, setShipment] = useState<Shipment | null>(null);
   const [simData, setSimData] = useState<SimulationResponse | null>(null);
   const [optimData, setOptimData] = useState<OptimizeResponse | null>(null);
-  const [rationale, setRationale] = useState("");
+  const [logText, setLogText] = useState("Awaiting neural synchronization...");
   const [loading, setLoading] = useState(true);
 
   // SHAP Feature Importance
@@ -131,34 +131,15 @@ export default function CaptainsConsole() {
     return data;
   }, []);
 
-  // Deterministic XAI Rationale Engine (Feasible & Reliable)
-  const generateRationale = (ship: Shipment, sim: SimulationResponse) => {
-    const risk = ship.geopolitics?.risk_score || 0;
-    const drift = sim.total_drift_km;
-    
-    let report = `### Mission Intelligence Report\n\n`;
-    report += `**Vessel Analysis:** ${ship.name} (${ship.type}) identified with ${ship.tonnage}t displacement. `;
-    
-    if (drift > 100) {
-      report += `Significant lateral displacement of **${drift.toFixed(1)}km** detected. This drift is primarily driven by non-linear oceanic force vectors interacting with the hull's drag coefficient. \n\n`;
-    } else {
-      report += `Nominal drift of **${drift.toFixed(1)}km** observed. Current vectors are within the ship's active stabilization envelope. \n\n`;
-    }
-
-    if (risk > 0.5) {
-      report += `**Strategic Alert:** High-risk geopolitical friction detected in **${ship.geopolitics?.region}**. The optimizer has prioritized a ${ship.geopolitics?.event}-avoidance corridor, increasing path resistance by ${(risk * 100).toFixed(0)}% to ensure cargo integrity. \n\n`;
-    }
-
-    report += `**Optimization Strategy:** Path-finding utilized a heuristic grid to minimize the weighted cost function of (Fuel consumption + Kinetic drift + Strategic risk). The proposed route maximizes safety while maintaining sub-15% variance from the Euclidean ideal.`;
-    
-    setRationale(report);
-  };
+  const explainedMmsiRef = useRef<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
-      if (!mmsi) return;
+      if (!mmsi || explainedMmsiRef.current === mmsi) return;
+      
       try {
-        const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8001";
+        setLoading(true);
+        const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8000";
         const shipRes = await fetch(`${url}/api/shipment/${mmsi}`);
         if (!shipRes.ok) return;
         const ship = await shipRes.json();
@@ -190,9 +171,33 @@ export default function CaptainsConsole() {
         setSimData(sData);
         setOptimData(oData);
 
-        // Generate Rationale locally without Gemini
-        generateRationale(ship, sData);
+        // TRIGGER EXPLAINER (Once per MMSI)
+        explainedMmsiRef.current = mmsi;
+        
+        const explainRes = await fetch("/api/explain", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            shipName: ship.name,
+            tonnage: ship.tonnage,
+            enginePower: ship.engine_power,
+            driftKm: sData.total_drift_km,
+            uo: 0.15, vo: 0.05,
+            startLat: ship.origin.lat, startLon: ship.origin.lon,
+            endLat: ship.destination.lat, endLon: ship.destination.lon,
+            geopolitics: ship.geopolitics ? ship.geopolitics.event : "Normal"
+          }),
+        });
 
+        if (!explainRes.body) return;
+        const reader = explainRes.body.getReader();
+        const decoder = new TextDecoder();
+        setLogText("");
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          setLogText(prev => prev + decoder.decode(value));
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -201,6 +206,7 @@ export default function CaptainsConsole() {
     }
     fetchData();
   }, [mmsi]);
+
 
   if (!mmsi) return (
     <div className={styles.root} style={{ alignItems: "center", justifyContent: "center" }}>
@@ -230,10 +236,10 @@ export default function CaptainsConsole() {
             <div className={styles.card}>
               <div className={styles.cardHeader}>
                 <span className={styles.cardTitle}>OPTIMIZATION RATIONALE</span>
-                <span className={styles.modelTag}>DETERMINISTIC XAI</span>
+                <span className={styles.modelTag}>XAI CORE</span>
               </div>
               <div className={styles.agentLog}>
-                <ReactMarkdown>{rationale}</ReactMarkdown>
+                <ReactMarkdown>{logText}</ReactMarkdown>
               </div>
             </div>
 
