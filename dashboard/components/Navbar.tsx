@@ -1,13 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 import { Anchor } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
-        <Anchor size={24} color="#e2e8f0" />
-        <span className={styles.brandName}>LATTICE</span>
+        {pathname === "/" && (
+          <>
+            <Anchor size={24} color="#e2e8f0" />
+            <span className={styles.brandName}>LATTICE</span>
+          </>
+        )}
       </div>
       <div className={styles.navLinks}>
         <Link href="/" className={styles.link}>Lattice Home</Link>

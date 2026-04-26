@@ -5,30 +5,31 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import styles from "./page.module.css";
+import MacbookDataView from "@/components/MacbookDataView";
 
 const TRUST_DATA = [
   {
-    title: "Copernicus Marine",
-    text: "Real-time oceanic physics and 4D visualizations driving our core predictive models.",
-    id: "01",
+    title: "Global AIS Integration",
+    text: "Real-time vessel telematics ingested at 1Hz frequency via dedicated satellite links. We track over 300,000 active vessels globally, integrating position, heading, speed over ground, and navigational status into a continuously updated state engine.",
+    id: "LAYER-01",
     color: "#38bdf8"
   },
   {
-    title: "GDELT Project",
-    text: "Global maritime event monitoring and geopolitical risk assessment.",
-    id: "02",
-    color: "#a855f7"
-  },
-  {
-    title: "GFW AIS Data",
-    text: "Global Fishing Watch satellite-based vessel tracking and historical intelligence.",
-    id: "03",
+    title: "Physics-Informed LSTM",
+    text: "Our core AI embeds Navier-Stokes fluid dynamics and wind resistance coefficients directly into the neural network architecture, achieving a 40% reduction in prediction error compared to standard machine learning models.",
+    id: "LAYER-02",
     color: "#10b981"
   },
   {
-    title: "NOAA & NASA",
-    text: "Atmospheric forcing, wind datasets, and advanced satellite imagery.",
-    id: "04",
+    title: "Geopolitical Risk Graph",
+    text: "Live ingestion of GDELT event streams maps global tension, naval exercises, and piracy hotspots onto a dynamic spatial knowledge graph. The system autonomously routes around emergent risk zones before human analysts receive the alert.",
+    id: "LAYER-03",
+    color: "#a855f7"
+  },
+  {
+    title: "Oceanic Resistance Mapping",
+    text: "High-resolution bathymetry and oceanic current data are combined to create a continuous friction surface. This allows our heuristic nudge model to identify hyper-efficient flow channels, reducing fuel consumption by up to 15%.",
+    id: "LAYER-04",
     color: "#fbbf24"
   },
 ];
@@ -46,6 +47,26 @@ const FAQ_DATA = [
     q: "Can Lattice integrate with real-time AIS hardware?",
     a: "Yes. Lattice is designed to ingest high-frequency telemetry from bridge-mounted AIS transponders, allowing for sub-minute corrective nudges in restricted corridors.",
   },
+  {
+    q: "Is the system capable of real-time adaptation?",
+    a: "Yes. The state engine processes incoming AIS data at a 1Hz frequency. If a vessel deviates from its optimized path or if a sudden storm materializes, the system instantly recalculates the optimal trajectory and updates the Captain's Console."
+  },
+  {
+    q: "How does Lattice handle sparse data regions?",
+    a: "In areas with low AIS coverage, the PI-LSTM leverages its embedded physics constraints to hallucinate physically viable trajectories, maintaining high accuracy even during communication blackouts."
+  },
+  {
+    q: "What hardware is required onboard the vessel?",
+    a: "Lattice is a cloud-native SaaS platform. No proprietary hardware is required onboard. We interface directly with the vessel's existing AIS transponder data and telemetry systems via secure API gateways."
+  },
+  {
+    q: "Can the system integrate with proprietary fleet data?",
+    a: "Absolutely. Our ingestion layer is designed to securely accept proprietary engine telemetry, cargo manifests, and historical voyage logs, fine-tuning the physics model specifically to your fleet's unique characteristics."
+  },
+  {
+    q: "How do you ensure the security of the Knowledge Graph?",
+    a: "Our Neo4j instance is isolated within a private VPC, utilizing role-based access control (RBAC) and end-to-end encryption. Geopolitical intelligence feeds are sanitized and verified through a multi-stage anomaly detection pipeline."
+  }
 ];
 
 function FAQAccordion() {
@@ -95,7 +116,7 @@ export default function LandingPage() {
         <video 
           autoPlay={true}
           loop={true}
-          muted={true}
+          muted={false}
           playsInline={true}
           className={styles.videoBg}
           preload="auto"
@@ -176,6 +197,9 @@ export default function LandingPage() {
             Enter Command Center
           </Link>
         </motion.div>
+
+        {/* Macbook Graph Data View */}
+        <MacbookDataView />
       </section>
 
       {/* FAQ Section */}

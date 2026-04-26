@@ -94,6 +94,11 @@ export default function CaptainsConsole() {
 
   const [logText, setLogText] = useState("Awaiting neural synchronization...");
   const [loading, setLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // SHAP Feature Importance
   const shapData = useMemo(() => {
@@ -257,18 +262,22 @@ export default function CaptainsConsole() {
             <div className={styles.card}>
               <div className={styles.cardTitle}>SHAP CONTRIBUTION ANALYSIS</div>
               <div style={{ height: 180, width: "100%" }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={shapData} layout="vertical" margin={{ left: 20, right: 20 }}>
-                    <XAxis type="number" hide />
-                    <YAxis dataKey="name" type="category" hide />
-                    <Tooltip contentStyle={{ background: "#0f172a", border: "none", fontSize: 10 }} cursor={{ fill: "rgba(255,255,255,0.05)" }} />
-                    <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
-                      {shapData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
+                {isMounted ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={shapData} layout="vertical" margin={{ left: 20, right: 20 }}>
+                      <XAxis type="number" hide />
+                      <YAxis dataKey="name" type="category" hide />
+                      <Tooltip contentStyle={{ background: "#0f172a", border: "none", fontSize: 10 }} cursor={{ fill: "rgba(255,255,255,0.05)" }} />
+                      <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
+                        {shapData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div style={{ width: '100%', height: '100%', background: 'rgba(15, 23, 42, 0.5)' }} />
+                )}
               </div>
               <div className={styles.shapLegend}>
                 {shapData.map(d => (

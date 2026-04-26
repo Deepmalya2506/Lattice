@@ -38,20 +38,9 @@ Keep it authoritative and technical. Format with sections: **PHYSICS DRIFT**, **
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        let result;
-        // Try models sequentially for the actual generation
-        for (const mName of MODELS) {
-          try {
-            const m = genAI.getGenerativeModel({ model: mName });
-            result = await m.generateContentStream(prompt.replace(usedModelName, mName));
-            console.log(`[Explain] Successfully using ${mName}`);
-            break;
-          } catch (err) {
-            console.warn(`[Explain] ${mName} failed, falling back...`);
-          }
-        }
-
-        if (!result) throw new Error("All models failed.");
+        const m = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+        const result = await m.generateContentStream(prompt);
+        console.log(`[Explain] Successfully streaming from gemini-3-flash-preview`);
 
         for await (const chunk of result.stream) {
           const text = chunk.text();
@@ -59,8 +48,8 @@ Keep it authoritative and technical. Format with sections: **PHYSICS DRIFT**, **
             controller.enqueue(encoder.encode(text));
           }
         }
-      } catch (err) {
-        console.error("[/api/explain] Gemini error:", err);
+      } catch (err: any) {
+        console.error("[/api/explain] Gemini error:", err?.message || err);
         controller.enqueue(
           encoder.encode(
             "\n\n⚠️ AI analysis temporarily unavailable. Manual assessment required."
