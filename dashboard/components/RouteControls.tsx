@@ -156,7 +156,7 @@ export default function RouteControls({
                     <Tooltip 
                       contentStyle={{ background: "#0f172a", border: "1px solid rgba(255,255,255,0.1)", fontSize: 10 }}
                       itemStyle={{ color: "#f87171" }}
-                      formatter={(value: number) => [`${value} km`, 'Inference']}
+                      formatter={(value) => [`${value ?? 0} km`, 'Inference']}
                       labelFormatter={() => ''}
                     />
                     <Area type="monotone" dataKey="drift" stroke="#f87171" strokeWidth={2} fillOpacity={1} fill="url(#colorDrift)" />

@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+export const dynamic = "force-dynamic";
+
+import { Suspense, useEffect, useState, useRef, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Shipment, SimulationResponse, OptimizeResponse } from "@/lib/types";
 import ReactMarkdown from "react-markdown";
 import styles from "./page.module.css";
+
 
 // 2D World Map & Heatmap Component
 function HeatmapMap({ geopolData, oceanData }: { geopolData: number[][], oceanData: number[][] }) {
@@ -29,16 +32,16 @@ function HeatmapMap({ geopolData, oceanData }: { geopolData: number[][], oceanDa
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Continent Outlines
-      ctx.strokeStyle = "rgba(168, 85, 247, 0.15)"; 
+      ctx.strokeStyle = "rgba(168, 85, 247, 0.15)";
       ctx.lineWidth = 1;
       // Americas
-      ctx.strokeRect(canvas.width * 0.1, canvas.height * 0.2, canvas.width * 0.15, canvas.height * 0.5); 
+      ctx.strokeRect(canvas.width * 0.1, canvas.height * 0.2, canvas.width * 0.15, canvas.height * 0.5);
       // Eurasia/Africa
-      ctx.strokeRect(canvas.width * 0.4, canvas.height * 0.1, canvas.width * 0.35, canvas.height * 0.6); 
+      ctx.strokeRect(canvas.width * 0.4, canvas.height * 0.1, canvas.width * 0.35, canvas.height * 0.6);
       // Australia
-      ctx.strokeRect(canvas.width * 0.75, canvas.height * 0.6, canvas.width * 0.15, canvas.height * 0.2); 
+      ctx.strokeRect(canvas.width * 0.75, canvas.height * 0.6, canvas.width * 0.15, canvas.height * 0.2);
 
-      const drawHeatmapLayer = (data: number[][], baseColor: {r: number, g: number, b: number}) => {
+      const drawHeatmapLayer = (data: number[][], baseColor: { r: number, g: number, b: number }) => {
         if (!data || data.length === 0) return;
         const cellW = canvas.width / data[0].length;
         const cellH = canvas.height / data.length;
@@ -55,7 +58,7 @@ function HeatmapMap({ geopolData, oceanData }: { geopolData: number[][], oceanDa
 
       drawHeatmapLayer(geopolData, { r: 168, g: 85, b: 247 }); // Purple
       drawHeatmapLayer(oceanData, { r: 234, g: 179, b: 8 }); // Yellow
-      
+
       // Heuristic Green Zone
       ctx.fillStyle = "rgba(34, 197, 94, 0.08)";
       ctx.fillRect(canvas.width * 0.3, canvas.height * 0.4, canvas.width * 0.4, canvas.height * 0.2);
@@ -71,9 +74,9 @@ function HeatmapMap({ geopolData, oceanData }: { geopolData: number[][], oceanDa
       <canvas ref={canvasRef} className={styles.heatmapCanvas} style={{ width: "100%", height: "100%" }} />
       <div className={styles.legendOverlay}>
         <div className={styles.legendTitle}>HEURISTIC FACTORS</div>
-        <div className={styles.legendItem}><div className={styles.dot} style={{ background: "#a855f7" }} /><span>Geopolitics (Purple)</span></div>
-        <div className={styles.legendItem}><div className={styles.dot} style={{ background: "#eab308" }} /><span>Oceanics (Yellow)</span></div>
-        <div className={styles.legendItem}><div className={styles.dot} style={{ background: "#22c55e" }} /><span>Safe-Zone (Green)</span></div>
+        <div className={styles.legendItem}><div className={styles.dot} style={{ background: "#a855f7" }} /><span>Geopolitics </span></div>
+        <div className={styles.legendItem}><div className={styles.dot} style={{ background: "#eab308" }} /><span>Oceanics </span></div>
+        <div className={styles.legendItem}><div className={styles.dot} style={{ background: "#22c55e" }} /><span>Safe-Zone </span></div>
       </div>
     </div>
   );
@@ -85,7 +88,7 @@ import { useShipState } from "@/lib/ShipStateContext";
 
 // ... (existing HeatmapMap component) ...
 
-export default function CaptainsConsole() {
+function CaptainsConsoleContent() {
   const searchParams = useSearchParams();
   const mmsiParam = searchParams.get("mmsi");
   const { mmsi, shipment, setShipment, simData, setSimData, optimData, setOptimData } = useShipState();
@@ -143,12 +146,12 @@ export default function CaptainsConsole() {
   useEffect(() => {
     async function fetchData() {
       if (!currentMmsi || explainedMmsiRef.current === currentMmsi) return;
-      
+
       try {
         setLoading(true);
         let currentShip = shipment;
         let currentSim = simData;
-        
+
         if (!currentShip || !currentSim) {
           const url = process.env.NEXT_PUBLIC_OPTIMIZER_URL || "http://localhost:8000";
           const shipRes = await fetch(`${url}/api/shipment/${currentMmsi}`);
@@ -184,7 +187,7 @@ export default function CaptainsConsole() {
 
         // TRIGGER EXPLAINER (Once per MMSI)
         explainedMmsiRef.current = currentMmsi;
-        
+
         const explainRes = await fetch("/api/explain", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -201,10 +204,10 @@ export default function CaptainsConsole() {
         });
 
         if (!explainRes.ok || !explainRes.body) {
-           setLogText("⚠️ XAI Core unavailable. Utilizing standard heuristic mapping.");
-           return;
+          setLogText("⚠️ XAI Core unavailable. Utilizing standard heuristic mapping.");
+          return;
         }
-        
+
         const reader = explainRes.body.getReader();
         const decoder = new TextDecoder();
         setLogText("");
@@ -300,5 +303,24 @@ export default function CaptainsConsole() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function CaptainsConsole() {
+  return (
+    <Suspense
+      fallback={
+        <div
+          className={styles.root}
+          style={{ alignItems: "center", justifyContent: "center" }}
+        >
+          <div className={styles.loadingPulse}>
+            INITIALIZING CAPTAIN'S CONSOLE...
+          </div>
+        </div>
+      }
+    >
+      <CaptainsConsoleContent />
+    </Suspense>
   );
 }
