@@ -1,12 +1,26 @@
+# Python/Logic
 .venv
 __pycache__
 *.pyc
+.env
+.ipynb_checkpoints
+*.ipynb
+
+# Dashboard/Frontend
+dashboard/node_modules
+dashboard/.next
+dashboard/out
+
+# Infrastructure/Git
 .git
 .gitignore
-.env
 Dockerfile
 .dockerignore
-*.md
-lattice_automated_test.html
+
+# Data/Large Assets
+scripts/
+sim/
+assets/
+*.mp4
 *.png
-*.ipynb
+shipments.csv
