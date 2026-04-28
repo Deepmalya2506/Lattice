@@ -1,26 +1,41 @@
-# Python/Logic
+# =========================
+# Python
+# =========================
 .venv
 __pycache__
 *.pyc
-.env
 .ipynb_checkpoints
 *.ipynb
 
-# Dashboard/Frontend
+# =========================
+# Environment Files
+# =========================
+.env
+.env.*
+dashboard/.env.local
+
+# =========================
+# Frontend Build Artifacts
+# =========================
 dashboard/node_modules
 dashboard/.next
 dashboard/out
 
-# Infrastructure/Git
+# =========================
+# Git
+# =========================
 .git
 .gitignore
-Dockerfile
-.dockerignore
 
-# Data/Large Assets
+# =========================
+# Large/Unused Assets
+# =========================
 scripts/
 sim/
 assets/
-*.mp4
-*.png
-shipments.csv
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db

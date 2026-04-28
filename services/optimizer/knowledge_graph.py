@@ -49,20 +49,10 @@ def _load_csv_fallback():
 
 _load_csv_fallback()
 
-# Read .env.local manually for Neo4j credentials
-env_vars = {}
-try:
-    with open("dashboard/.env.local", "r") as f:
-        for line in f:
-            if "=" in line:
-                k, v = line.strip().split("=", 1)
-                env_vars[k.strip()] = v.strip()
-except:
-    pass
-
-NEO4J_URI = env_vars.get("NEO4J_URI", "bolt://localhost:7687")
-NEO4J_USER = env_vars.get("neo4j_username", "neo4j")
-NEO4J_PASSWORD = env_vars.get("neo4j_password", "password")
+# Read .env manually for Neo4j credentials
+NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
+NEO4J_USER = os.getenv("NEO4J_USERNAME", "neo4j")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "password")
 
 def get_db_driver():
     if not GraphDatabase: return None

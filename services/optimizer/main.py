@@ -2,6 +2,7 @@
 Lattice Reactive Optimizer Service
 FastAPI microservice — Optimized for Physical Drift & Geopolitical Risk.
 Replaces A* with a Heuristic Nudge Model.
+main.py
 """
 
 import math
@@ -11,13 +12,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-import services.optimizer.knowledge_graph as kg
+import knowledge_graph as kg
 
 app = FastAPI(title="Lattice Optimizer", version="3.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000", "https://lattice-frontend-936844506729.us-central1.run.app"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
