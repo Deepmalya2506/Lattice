@@ -1,5 +1,6 @@
 copernicus_data/
 .env
+dashboard\.env.local
 .venv/
 services/risk_scoring_engine/lattice_pi_lstm_cpu.pth
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
