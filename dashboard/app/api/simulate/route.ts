@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
 
     if (!upstream.ok) {
       const text = await upstream.text();
+
       return NextResponse.json(
         { error: "Cloud Run error", detail: text },
         { status: upstream.status }
@@ -24,16 +25,16 @@ export async function POST(req: NextRequest) {
 
     const data = await upstream.json();
     return NextResponse.json(data);
+
   } catch (err) {
     console.error("[/api/simulate] error:", err);
-    // Return a mocked fallback so the dashboard doesn't crash if Cloud Run is down
-    const body = await req.json().catch(() => ({}));
-    return NextResponse.json({ 
-      drift_path: [
-        { lat: body.start_lat || 0, lon: body.start_lon || 0 },
-        { lat: body.end_lat || 0, lon: body.end_lon || 0 }
-      ],
-      total_drift_km: 125.4
-    }, { status: 200 });
+
+    return NextResponse.json(
+      {
+        drift_path: [],
+        total_drift_km: 0,
+      },
+      { status: 200 }
+    );
   }
 }

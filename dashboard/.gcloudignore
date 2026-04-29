@@ -1,0 +1,53 @@
+# =========================
+# Python
+# =========================
+.venv
+__pycache__
+*.pyc
+.ipynb_checkpoints
+*.ipynb
+
+# =========================
+# Environment Files
+# =========================
+.env
+.env.*
+dashboard/.env.local
+
+# =========================
+# Frontend Build Artifacts
+# =========================
+dashboard/node_modules
+dashboard/.next
+dashboard/out
+
+# =========================
+# Git
+# =========================
+.git
+.gitignore
+
+# =========================
+# Large/Unused Assets
+# =========================
+scripts/
+sim/
+assets/
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Node.js
+# =========================
+node_modules
+
+# =========================
+# Next.js
+# =========================
+.next
+out
+dist
